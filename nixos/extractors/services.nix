@@ -80,7 +80,7 @@ in {
           details = listToAttrs (mapAttrsToList (name: v: {
               inherit name;
               value.text =
-                if (hasAttr v.settings.server.address)
+                if (hasAttr "address" v.settings.server)
                 then "${v.settings.server.address}"
                 else "${v.settings.server.host}:${toString v.settings.server.port}";
             })
