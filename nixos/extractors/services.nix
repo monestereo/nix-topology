@@ -5,6 +5,7 @@
 }: let
   inherit
     (lib)
+    hasAttr
     attrNames
     genAttrs
     concatLines
@@ -78,7 +79,10 @@ in {
           icon = "services.authelia";
           details = listToAttrs (mapAttrsToList (name: v: {
               inherit name;
-              value.text = "${v.settings.server.host}:${toString v.settings.server.port}";
+              value.text =
+                if (hasAttr v.settings.server.address)
+                then "${v.settings.server.address}"
+                else "${v.settings.server.host}:${toString v.settings.server.port}";
             })
             instances);
         };
